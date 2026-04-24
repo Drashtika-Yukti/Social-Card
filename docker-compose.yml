@@ -5,9 +5,9 @@ services:
     build: .
     image: social-forge:v1
     ports:
-      - "9090:9090"
+      - "7860:7860"
     environment:
-      - PORT=9090
+      - PORT=7860
       - API_KEY=set-your-secure-key-here
       - ENV=production
     restart: always

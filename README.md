@@ -43,7 +43,7 @@ You don't need Go or Chrome installed. Just run:
 ```bash
 docker-compose up --build
 ```
-The service will be live at `http://localhost:9090`.
+The service will be live at `http://localhost:7860`.
 
 #### Option B: Local Run
 ```bash

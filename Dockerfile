@@ -36,12 +36,12 @@ WORKDIR /app
 COPY --from=builder /app/social-forge .
 
 # Set environment variables
-ENV PORT=9090
+ENV PORT=7860
 ENV API_KEY=drashtika-default-key
 ENV ENV=production
 
-# Expose the service port
-EXPOSE 9090
+# Expose the service port (Hugging Face requires 7860)
+EXPOSE 7860
 
 # Reliability: Use tini as init process
 ENTRYPOINT ["/usr/bin/tini", "--"]
