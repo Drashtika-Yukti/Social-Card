@@ -74,6 +74,24 @@ go run cmd/server/main.go
 
 ---
 
+### 🚀 Deployment (CD)
+
+This project is configured for **Continuous Deployment**. Every push to `main` automatically publishes a new Docker image to the **GitHub Container Registry (GHCR)**.
+
+#### Deploy to Google Cloud Run (Recommended)
+Once your image is published to GHCR, you can deploy it to a live URL using the following command (requires [Google Cloud SDK](https://cloud.google.com/sdk)):
+
+```bash
+gcloud run deploy social-forge \
+  --image ghcr.io/drashtika-yukti/social-card:latest \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --set-env-vars="API_KEY=your-secret-key,ENV=production"
+```
+
+---
+
 ### 🩺 Health Checks
 Ping `GET /health` to verify the service status for your monitoring tools.
 
