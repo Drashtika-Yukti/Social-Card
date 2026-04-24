@@ -1,0 +1,9 @@
+.git
+*.exe
+*.png
+bin/
+Dockerfile
+docker-compose.yml
+.env
+.idea
+.vscode

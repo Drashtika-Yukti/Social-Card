@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  social-forge-engine:
+    build: .
+    image: social-forge:v1
+    ports:
+      - "9090:9090"
+    environment:
+      - PORT=9090
+      - API_KEY=set-your-secure-key-here
+      - ENV=production
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9090/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
