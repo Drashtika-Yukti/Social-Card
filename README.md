@@ -65,7 +65,7 @@ go run cmd/server/main.go
 
 ### 📡 API Example
 **POST** `/generate`
-**Headers:** `X-API-KEY: your-secret-key`
+**Headers:** `X-API-KEY: drashtika-social-secret`
 
 ```json
 {

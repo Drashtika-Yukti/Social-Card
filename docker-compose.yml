@@ -8,7 +8,7 @@ services:
       - "7860:7860"
     environment:
       - PORT=7860
-      - API_KEY=set-your-secure-key-here
+      - API_KEY=drashtika-social-secret
       - ENV=production
     restart: always
     deploy:

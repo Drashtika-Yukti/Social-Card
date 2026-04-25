@@ -37,7 +37,7 @@ COPY --from=builder /app/social-forge .
 
 # Set environment variables
 ENV PORT=7860
-ENV API_KEY=drashtika-default-key
+ENV API_KEY=drashtika-social-secret
 ENV ENV=production
 
 # Expose the service port

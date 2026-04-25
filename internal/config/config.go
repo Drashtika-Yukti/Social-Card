@@ -14,8 +14,8 @@ type Config struct {
 // Load loads configuration from environment variables
 func Load() *Config {
 	return &Config{
-		Port:   getEnv("PORT", "9090"),
-		ApiKey: getEnv("API_KEY", "dev-secret-key"),
+		Port:   getEnv("PORT", "7860"),
+		ApiKey: getEnv("API_KEY", "drashtika-social-secret"),
 		IsDev:  getEnv("ENV", "development") == "development",
 	}
 }
