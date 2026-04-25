@@ -182,7 +182,11 @@
     <main>
         <section class="editor-section">
             <div class="card" style="flex: 1;">
-                <div class="label">Markdown Content</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="label">Markdown Content</div>
+                    <button class="btn" style="padding: 4px 12px; font-size: 0.7rem; background: rgba(255,255,255,0.1); color: white;" onclick="document.getElementById('md-input').click()">LOAD .MD FILE</button>
+                    <input type="file" id="md-input" hidden accept=".md,.txt" onchange="readMarkdown(this)">
+                </div>
                 <textarea id="markdown" placeholder="## Write your story here...&#10;**Bold** text, `code`, and more.">## SocialForge Engine
 Create beautiful social cards in **seconds**. 
 
@@ -233,6 +237,17 @@ Customizable, high-performance, and open-source.</textarea>
     <script>
         // Load API key from local storage
         document.getElementById('api-key').value = localStorage.getItem('socialforge_key') || 'drashtika-social-secret';
+
+        async function readMarkdown(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('markdown').value = e.target.result;
+                generate();
+            };
+            reader.readAsText(file);
+        }
 
         async function handleUpload(input) {
             const file = input.files[0];
