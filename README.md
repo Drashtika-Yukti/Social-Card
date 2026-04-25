@@ -4,7 +4,7 @@ emoji: 🎨
 colorFrom: blue
 colorTo: indigo
 sdk: docker
-app_port: 9090
+app_port: 7860
 ---
 
 # 🎨 Drashtika SocialForge: High-Performance Social Card Generator
@@ -52,7 +52,7 @@ You don't need Go or Chrome installed. Just run:
 ```bash
 docker-compose up --build
 ```
-The service will be live at `http://localhost:9090`.
+The service will be live at `http://localhost:7860`.
 
 #### Option B: Local Run
 ```bash

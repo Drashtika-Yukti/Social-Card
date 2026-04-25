@@ -23,7 +23,18 @@ func Screenshot(htmlContent string) ([]byte, error) {
 
 	fileUrl := "file:///" + filepath.ToSlash(tmpFile.Name())
 
-	ctx, cancel := chromedp.NewContext(context.Background())
+	// Configure Chromedp for Linux/Docker environments (No Sandbox is required)
+	opts := append(chromedp.DefaultExecAllocatorOptions[:],
+		chromedp.NoSandbox,
+		chromedp.DisableGPU,
+		chromedp.Flag("disable-setuid-sandbox", true),
+		chromedp.Flag("disable-dev-shm-usage", true),
+	)
+
+	allocCtx, cancelAlloc := chromedp.NewExecAllocator(context.Background(), opts...)
+	defer cancelAlloc()
+
+	ctx, cancel := chromedp.NewContext(allocCtx)
 	defer cancel()
 
 	var buf []byte
