@@ -24,6 +24,7 @@ type CardRequest struct {
 	Title       string                   `json:"title"`
 	Theme       string                   `json:"theme,omitempty"`
 	AccentColor string                   `json:"accent_color,omitempty"`
+	AvatarURL   string                   `json:"avatar_url,omitempty"`
 	Overrides   templates.StyleOverrides `json:"style_overrides,omitempty"`
 }
 
@@ -71,6 +72,7 @@ func GenerateCardHandler(w http.ResponseWriter, r *http.Request) {
 		Title:       req.Title,
 		Theme:       req.Theme,
 		AccentColor: req.AccentColor,
+		AvatarURL:   req.AvatarURL,
 		Overrides:   req.Overrides,
 	})
 	if err != nil {

@@ -18,6 +18,7 @@ type CardData struct {
 	Title       string
 	Theme       string
 	AccentColor string
+	AvatarURL   string
 	Overrides   StyleOverrides
 }
 
@@ -131,6 +132,9 @@ const SocialCard = `
 		<div class="meta">{{.Title}}</div>
 		<div class="content">{{.Content}}</div>
 		<div class="footer">
+			{{if .AvatarURL}}
+			<img src="{{.AvatarURL}}" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--accent);">
+			{{end}}
 			<span>{{.Author}}</span>
 			<div class="dot"></div>
 			<span>Drashtika SocialForge</span>

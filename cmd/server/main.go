@@ -7,7 +7,11 @@ import (
 
 	"social-forge/internal/api"
 	"social-forge/internal/config"
+	_ "embed"
 )
+
+//go:embed public/index.html
+var indexHTML []byte
 
 func main() {
 	cfg := config.Load()
@@ -21,6 +25,14 @@ func main() {
 
 	// Public endpoints
 	mux.HandleFunc("/health", api.HealthCheckHandler)
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			http.NotFound(w, r)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html")
+		w.Write(indexHTML)
+	})
 
 	fmt.Printf("🚀 Drashtika SocialForge starting on :%s (Mode: %s)\n", cfg.Port, getMode(cfg))
 	fmt.Printf("🔑 Configured API Key: %s\n", cfg.ApiKey)

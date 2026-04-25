@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drashtika SocialForge | Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #38bdf8;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.15) 0px, transparent 50%);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            gap: 2rem;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .editor-section, .preview-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            min-width: 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+
+        input, textarea, select {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        textarea {
+            flex: 1;
+            font-family: 'JetBrains Mono', monospace;
+            resize: none;
+            line-height: 1.6;
+        }
+
+        .preview-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #preview-img {
+            max-width: 100%;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: #1e293b;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem;
+            z-index: 10;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: #0f172a;
+            border: none;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .btn:active { transform: scale(0.98); }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--glass-border);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .upload-zone:hover { background: rgba(56, 189, 248, 0.05); }
+
+        /* Mobile adjustments */
+        @media (max-width: 1024px) {
+            main { flex-direction: column; overflow-y: auto; }
+            body { overflow-y: auto; height: auto; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">DRASHTIKA SOCIALFORGE</div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <input type="password" id="api-key" placeholder="API KEY" style="width: 180px;">
+            <button class="btn" onclick="generate()">GENERATE PNG</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="editor-section">
+            <div class="card" style="flex: 1;">
+                <div class="label">Markdown Content</div>
+                <textarea id="markdown" placeholder="## Write your story here...&#10;**Bold** text, `code`, and more.">## SocialForge Engine
+Create beautiful social cards in **seconds**. 
+
+Customizable, high-performance, and open-source.</textarea>
+            </div>
+            
+            <div class="card">
+                <div class="label">Card Metadata</div>
+                <div class="settings-grid">
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <input type="text" id="title" placeholder="Title / Category" value="ENGINE UPDATE">
+                        <input type="text" id="author" placeholder="Author Name" value="Drashtika AI">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <select id="theme">
+                            <option value="dark">Dark Theme</option>
+                            <option value="light">Light Theme</option>
+                        </select>
+                        <input type="color" id="accent" value="#38bdf8" style="width: 100%; height: 42px; padding: 2px;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="label">Avatar / Image Upload</div>
+                <div class="upload-zone" onclick="document.getElementById('avatar-input').click()">
+                    <span id="upload-text">Click to upload avatar</span>
+                    <input type="file" id="avatar-input" hidden accept="image/*" onchange="handleUpload(this)">
+                    <input type="hidden" id="avatar-url">
+                </div>
+            </div>
+        </section>
+
+        <section class="preview-section">
+            <div class="label">Real-time Preview</div>
+            <div class="preview-container">
+                <div class="loading-overlay" id="loader">
+                    <div style="font-weight: 800; letter-spacing: 2px;">GENERATING...</div>
+                </div>
+                <img id="preview-img" src="" alt="Social Card Preview">
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" style="flex: 1; background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--glass-border);" onclick="download()">DOWNLOAD AS PNG</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Load API key from local storage
+        document.getElementById('api-key').value = localStorage.getItem('socialforge_key') || 'drashtika-social-secret';
+
+        async function handleUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('avatar-url').value = e.target.result;
+                document.getElementById('upload-text').innerText = "Image: " + file.name;
+                generate();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function generate() {
+            const key = document.getElementById('api-key').value;
+            localStorage.setItem('socialforge_key', key);
+
+            const payload = {
+                markdown: document.getElementById('markdown').value,
+                author: document.getElementById('author').value,
+                title: document.getElementById('title').value,
+                theme: document.getElementById('theme').value,
+                accent_color: document.getElementById('accent').value,
+                avatar_url: document.getElementById('avatar-url').value
+            };
+
+            const loader = document.getElementById('loader');
+            const preview = document.getElementById('preview-img');
+            
+            loader.style.display = 'flex';
+
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-KEY': key
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error(await response.text());
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                preview.src = url;
+            } catch (err) {
+                alert("Error: " + err.message);
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        function download() {
+            const preview = document.getElementById('preview-img');
+            if (!preview.src) return;
+            
+            const link = document.createElement('a');
+            link.href = preview.src;
+            link.download = `social-card-${Date.now()}.png`;
+            link.click();
+        }
+
+        // Auto-generate on start
+        window.onload = generate;
+
+        // Debounced auto-generate
+        let timeout;
+        document.querySelectorAll('input, textarea, select').forEach(el => {
+            el.addEventListener('input', () => {
+                clearTimeout(timeout);
+                timeout = setTimeout(generate, 800);
+            });
+        });
+    </script>
+</body>
+</html>
