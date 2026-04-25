@@ -1,3 +1,12 @@
+---
+title: Social Card
+emoji: 🎨
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 9090
+---
+
 # 🎨 Drashtika SocialForge: High-Performance Social Card Generator
 
 **Drashtika SocialForge** is a professional, secure, and production-ready Go microservice designed to instantly transform Markdown content into beautiful, high-resolution social media preview images (OpenGraph cards).
@@ -43,7 +52,7 @@ You don't need Go or Chrome installed. Just run:
 ```bash
 docker-compose up --build
 ```
-The service will be live at `http://localhost:7860`.
+The service will be live at `http://localhost:9090`.
 
 #### Option B: Local Run
 ```bash
